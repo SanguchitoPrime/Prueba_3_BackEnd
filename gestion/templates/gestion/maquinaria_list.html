@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Catálogo de Maquinaria{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4 mb-0">Flota de Maquinaria e Implementos</h2>
+    <span class="badge bg-secondary">Total: {{ maquinarias|length }} equipos</span>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for item in maquinarias %}
+    <div class="col">
+        <div class="card h-100 shadow-sm card-maquinaria">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="badge bg-primary">{{ item.tipo.nombre }}</span>
+                    {% if item.operativa %}
+                        <span class="badge bg-success">Operativa</span>
+                    {% else %}
+                        <span class="badge bg-danger">En Mantención</span>
+                    {% endif %}
+                </div>
+                <h5 class="card-title">{{ item.nombre }}</h5>
+                <p class="card-text text-muted small mb-1"><strong>Patente/Serie:</strong> {{ item.patente_serie }}</p>
+                <p class="card-text text-muted small mb-0"><strong>Horómetro:</strong> {{ item.horas_uso }} hrs ({{ item.anio_fabricacion }})</p>
+            </div>
+            <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
+                <a href="{% url 'maquinaria_detail' item.pk %}" class="btn btn-outline-success btn-sm">Ver Ficha</a>
+                {% if user.is_authenticated %}
+                    <div>
+                        <a href="{% url 'maquinaria_update' item.pk %}" class="btn btn-outline-warning btn-sm">Editar</a>
+                        <a href="{% url 'maquinaria_delete' item.pk %}" class="btn btn-outline-danger btn-sm">Eliminar</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">No hay maquinarias registradas aún.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
