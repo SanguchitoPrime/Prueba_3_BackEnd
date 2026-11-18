@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ maquinaria.nombre }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h3 class="h5 mb-0">{{ maquinaria.nombre }}</h3>
+        <span class="badge bg-primary">{{ maquinaria.tipo.nombre }}</span>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>Patente / N° Serie:</strong> {{ maquinaria.patente_serie }}</li>
+            <li class="list-group-item"><strong>Año de Fabricación:</strong> {{ maquinaria.anio_fabricacion }}</li>
+            <li class="list-group-item"><strong>Horas de Uso:</strong> {{ maquinaria.horas_uso }} hrs</li>
+            <li class="list-group-item">
+                <strong>Estado:</strong>
+                {% if maquinaria.operativa %}Operativa{% else %}Fuera de servicio / Mantención{% endif %}
+            </li>
+            <li class="list-group-item"><strong>Observaciones:</strong> {{ maquinaria.observaciones|default:"Sin observaciones." }}</li>
+        </ul>
+        <a href="{% url 'maquinaria_list' %}" class="btn btn-secondary">Volver al listado</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'maquinaria_update' maquinaria.pk %}" class="btn btn-warning">Editar</a>
+            <a href="{% url 'maquinaria_delete' maquinaria.pk %}" class="btn btn-danger">Eliminar</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

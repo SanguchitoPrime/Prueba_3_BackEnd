@@ -1,0 +1,13 @@
+<< Ingresar en la termianl de venv >>
+
+python manage.py shell -c "from gestion.models import TipoMaquinaria, Maquinaria; t1,_=TipoMaquinaria.objects.get_or_create(nombre='Tractores', defaults={'descripcion':'Tractores agrícolas de tiro'}); t2,_=TipoMaquinaria.objects.get_or_create(nombre='Implementos de Siembra', defaults={'descripcion':'Sembradoras y abonadoras'}); t3,_=TipoMaquinaria.objects.get_or_create(nombre='Sistemas de Riego', defaults={'descripcion':'Carretes y bombas de riego'}); t4,_=TipoMaquinaria.objects.get_or_create(nombre='Equipos de Cosecha', defaults={'descripcion':'Segadoras y enfardadoras'}); datos=[('Tractor John Deere 5075E','JD-5075',2021,1240.5,True,'Mantención al día',t1),('Tractor New Holland TT4.75','NH-4075',2020,1850.0,True,'Neumáticos nuevos',t1),('Tractor Kubota M7060','KB-7060',2022,620.0,True,'Uso en praderas',t1),('Sembradora Directa Gherardi','GH-3010',2019,430.5,True,'15 líneas',t2),('Abonadora Centrífuga Kuhn','KH-1100',2021,310.0,True,'Tolva acero inox',t2),('Rastra de Discos Baldan','BL-2400',2018,890.0,False,'Cambio de rodamientos',t2),('Carrete de Riego Irtec 90/300','IR-9030',2020,540.0,True,'Cañón sectorial incluido',t3),('Motobomba Diésel Lombardini','LB-4500',2017,2100.5,False,'Revisión de inyectores',t3),('Segadora Rotativa Claas Disco','CL-2650',2022,380.0,True,'Cuchillas recién cambiadas',t4),('Enfardadora Prismática Welger','WL-5300',2019,970.0,True,'Operativa para temporada',t4)]; [Maquinaria.objects.get_or_create(patente_serie=p, defaults={'nombre':n,'anio_fabricacion':a,'horas_uso':h,'operativa':o,'observaciones':obs,'tipo':t}) for n,p,a,h,o,obs,t in datos]; print('Datos cargados en Oracle OK')"
+
+
+
+<< consulta en la base de datos (Oracle) >>
+
+SELECT COUNT(*) AS total_padres FROM gestion_tipomaquinaria;
+SELECT COUNT(*) AS total_hijos FROM gestion_maquinaria;
+SELECT h.id, h.nombre, p.nombre AS padre
+FROM gestion_maquinaria h
+INNER JOIN gestion_tipomaquinaria p ON h.tipo_id = p.id;
