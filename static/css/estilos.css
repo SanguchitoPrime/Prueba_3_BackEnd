@@ -1,0 +1,9 @@
+body {
+    background-color: #f4f6f9;
+}
+.card-maquinaria {
+    transition: transform 0.15s ease-in-out;
+}
+.card-maquinaria:hover {
+    transform: translateY(-4px);
+}
